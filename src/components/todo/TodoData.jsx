@@ -1,11 +1,12 @@
 const TodoData = (props) => {
-  const { name, age, info } = props;
+  const { todoList } = props;
   return (
     <div className='todo-data'>
       <div>
-        {name} {age} {info.address} {info.country}{' '}
+        {todoList.map((todo) => {
+          return <div key={todo.id}>{todo.id} - {todo.name}</div>;
+        })}
       </div>
-      <div>Learning React</div>
     </div>
   );
 };
