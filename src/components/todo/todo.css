@@ -1,6 +1,6 @@
 /* General container styling */
 .todo-container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 50px auto;
   padding: 20px;
   background: #fff;
@@ -98,7 +98,6 @@
 /* Empty State */
 .todo-image img {
   width: 100px;
-  opacity: 0.5;
   margin-top: 20px;
 }
 

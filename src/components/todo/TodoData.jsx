@@ -1,8 +1,8 @@
 const TodoData = ({ todoList, deleteTodo }) => {
   return (
-    <ul className='todo-list'>
+    <div className='todo-list'>
       {todoList.map((todo) => (
-        <li
+        <div
           key={todo.id}
           className='todo-item'
         >
@@ -13,9 +13,9 @@ const TodoData = ({ todoList, deleteTodo }) => {
           >
             Delete
           </button>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
