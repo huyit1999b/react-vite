@@ -1,0 +1,40 @@
+// Main Color Tones (Soft Pink Theme)
+$color-lightest: #F9F5F6; // Soft Pink-White
+$color-light: #F8E8EE; // Light Pink
+$color-medium: #FDCEDF; // Muted Pink
+$color-dark: #F2BED1; // Deep Pink
+
+// Complementary & Neutral Colors
+$color-accent: #8B5E83;  // Dark Plum (For contrast)
+$color-neutral-light: #FAF3E0; // Soft Beige (For background)
+$color-neutral-dark: #5A5A5A; // Dark Gray (For text)
+
+// Background Colors
+$bg-primary: $color-neutral-light;
+$bg-secondary: $color-lightest;
+$bg-tertiary: $color-medium;
+$bg-hover: $color-dark;
+$bg-accent: $color-accent;
+
+// Text Colors
+$text-primary: $color-accent;
+$text-secondary: $color-dark;
+$text-muted: $color-light;
+$text-contrast: $color-neutral-dark; // High contrast text
+
+// Borders
+$border-light: $color-light;
+$border-medium: $color-medium;
+$border-dark: $color-accent;
+
+// Buttons
+$btn-primary-bg: $color-medium;
+$btn-primary-text: $color-neutral-dark;
+$btn-primary-hover: $color-dark;
+$btn-accent-bg: $color-accent;
+$btn-accent-text: $color-lightest;
+
+// Links
+$link-color: $color-accent;
+$link-hover: $color-dark;
+$link-active: $color-medium;
