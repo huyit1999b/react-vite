@@ -1,7 +1,12 @@
 .user-form {
-    max-width: 300px;
-    padding: 20px;
-    .form-control {
-        margin: 10px 0;
-    }
+  padding: 20px;
+
+  .top-section {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.form-control {
+  margin: 10px 0;
 }

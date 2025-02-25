@@ -1,7 +1,7 @@
 import Input from 'antd/es/input/Input';
 import React, { useState } from 'react';
 import './user.scss';
-import { Button, notification } from 'antd';
+import { Button, Modal, notification } from 'antd';
 import axios from '../../services/axios.customize';
 import { createUserAPI } from '../../services/api.service';
 
@@ -10,14 +10,16 @@ const UserForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOnClick = async () => {
+  const handleSubmitForm = async () => {
     const res = await createUserAPI(fullName, email, password, phone);
     if (res.data) {
       notification.success({
         message: 'User Created',
         description: 'The user has been created successfully.',
       });
+      setIsModalOpen(false);
     } else {
       notification.error({
         message: 'Error',
@@ -29,6 +31,23 @@ const UserForm = () => {
   return (
     <div className='user-form'>
       <div>
+        <div className='top-section'>
+          <h2>User List</h2>
+          <Button
+            type='primary'
+            onClick={() => setIsModalOpen(true)}
+          >
+            Create User
+          </Button>
+        </div>
+      </div>
+      <Modal
+        title='CREATE USER'
+        open={isModalOpen}
+        onOk={() => handleSubmitForm()}
+        onCancel={() => setIsModalOpen(false)}
+        okText='CREATE'
+      >
         <div className='form-control'>
           <span>Full Name</span>
           <Input
@@ -57,15 +76,7 @@ const UserForm = () => {
             onChange={(event) => setPhone(event.target.value)}
           />
         </div>
-        <div>
-          <Button
-            type='primary'
-            onClick={() => handleOnClick()}
-          >
-            Create User
-          </Button>
-        </div>
-      </div>
+      </Modal>
     </div>
   );
 };

@@ -32,12 +32,11 @@ const UserTable = () => {
     setDataUsers(res.data);
   };
 
-  const data = [];
   return (
     <Table
       columns={columns}
       dataSource={dataUsers}
-      rowKey={id}
+      rowKey={'_id'}
     />
   );
 };
