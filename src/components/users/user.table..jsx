@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Table, Tag } from 'antd';
-import { fetchAllUserApi } from '../../services/api.service';
+import { notification, Popconfirm, Space, Table, Tag } from 'antd';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import UserFormEdit from './user.form-edit';
+import UserDetail from './user-detail';
+import { deleteUserAPI } from '../../services/user.api.service';
 
-const UserTable = () => {
-  const [dataUsers, setDataUsers] = useState([]);
-
-  useEffect(() => {
-    loadUser();
-  }, []);
-
+const UserTable = ({ dataUsers, loadUser }) => {
   const columns = [
     {
       title: 'Id',
@@ -25,19 +22,86 @@ const UserTable = () => {
       dataIndex: 'email',
       key: 'email',
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <EyeOutlined
+            onClick={() => handleViewUserDetail(record)}
+            style={{ cursor: 'pointer' }}
+          />
+          <EditOutlined
+            onClick={() => handleEditUser(record)}
+            style={{ color: 'orange', cursor: 'pointer' }}
+          />
+          <Popconfirm
+            title='Delete the user'
+            description='Are you sure to delete this user?'
+            onConfirm={() => handleDeleteUser(record)}
+            okText='Yes'
+            cancelText='No'
+          >
+            <DeleteOutlined
+              style={{ color: 'red', cursor: 'pointer' }}
+            />
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
-  const loadUser = async () => {
-    const res = await fetchAllUserApi();
-    setDataUsers(res.data);
+  const [dataUpdate, setDataUpdate] = useState({});
+  const [dataUserDetail, setDataUserDetail] = useState({});
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  const handleEditUser = (user) => {
+    setIsEditModalOpen(true);
+    setDataUpdate(user);
+  };
+
+  const handleViewUserDetail = (user) => {
+    setIsViewModalOpen(true);
+    setDataUserDetail(user);
+  };
+
+  const handleDeleteUser = async (user) => {
+    const res = await deleteUserAPI(user._id);
+    if (res.data) {
+      notification.success({
+        message: 'User Delete',
+        description: 'The user has been deleted successfully.',
+      });
+      await loadUser();
+    } else {
+      notification.error({
+        message: 'Error',
+        description: JSON.stringify(res.message),
+      });
+    }
   };
 
   return (
-    <Table
-      columns={columns}
-      dataSource={dataUsers}
-      rowKey={'_id'}
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={dataUsers}
+        rowKey={'_id'}
+      />
+      <UserFormEdit
+        loadUser={loadUser}
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+      />
+      <UserDetail
+        isViewModalOpen={isViewModalOpen}
+        setIsViewModalOpen={setIsViewModalOpen}
+        dataUserDetail={dataUserDetail}
+      />
+    </>
   );
 };
 

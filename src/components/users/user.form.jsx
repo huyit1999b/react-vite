@@ -2,10 +2,9 @@ import Input from 'antd/es/input/Input';
 import React, { useState } from 'react';
 import './user.scss';
 import { Button, Modal, notification } from 'antd';
-import axios from '../../services/axios.customize';
-import { createUserAPI } from '../../services/api.service';
+import { createUserAPI } from '../../services/user.api.service';
 
-const UserForm = () => {
+const UserForm = ({ loadUser }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +18,8 @@ const UserForm = () => {
         message: 'User Created',
         description: 'The user has been created successfully.',
       });
-      setIsModalOpen(false);
+      resetAndCloseData();
+      await loadUser();
     } else {
       notification.error({
         message: 'Error',
@@ -28,13 +28,21 @@ const UserForm = () => {
     }
   };
 
+  const resetAndCloseData = () => {
+    setIsModalOpen(false);
+    setFullName('');
+    setEmail('');
+    setPassword('');
+    setPhone('');
+  };
+
   return (
     <div className='user-form'>
       <div>
         <div className='top-section'>
-          <h2>User List</h2>
+          <h2 className='title'>User List</h2>
           <Button
-            type='primary'
+            className='btn btn-primary'
             onClick={() => setIsModalOpen(true)}
           >
             Create User
@@ -45,7 +53,7 @@ const UserForm = () => {
         title='CREATE USER'
         open={isModalOpen}
         onOk={() => handleSubmitForm()}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={() => resetAndCloseData()}
         okText='CREATE'
       >
         <div className='form-control'>

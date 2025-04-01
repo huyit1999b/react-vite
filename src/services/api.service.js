@@ -1,21 +1,18 @@
 import axios from './axios.customize';
 
-const fetchAllUserApi = async () => {
-  const URL_BACKEND = '/api/v1/user';
-  return await axios.get(URL_BACKEND);
+const apiRequest = async (method, url, data = null, params = null) => {
+  try {
+    const response = await axios({
+      method,
+      url,
+      data,
+      params,
+    });
+    return response; // Only return the data to keep it clean
+  } catch (error) {
+    console.error(`API ${method} error at ${url}:`, error);
+    throw error.response ? error.response : error;
+  }
 };
 
-const createUserAPI = async (fullName, email, password, phone) => {
-  const URL_BACKEND = '/api/v1/user';
-  const data = {
-    fullName: fullName,
-    email: email,
-    password: password,
-    phone: phone,
-  };
-  const response = await axios.post(URL_BACKEND, data);
-
-  return response;
-};
-
-export { createUserAPI, fetchAllUserApi };
+export default apiRequest;
